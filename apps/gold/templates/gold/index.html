@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ninja Gold</title>
+        <style type="text/css">
+            #activity-box{
+			    border: 2px solid black;
+			    width: 1000px;
+			    height: 200px;
+			    overflow-y: scroll;
+            }
+            .red{
+			    color: red;
+		    }
+		    .green{
+			    color: green;
+		    }
+		    .green, .red, .black{
+			    margin-top: 0px;
+			    margin-bottom: 0px;
+			    font-size: 14px;
+		    }
+
+        </style>
+    </head>
+    <body>
+        <form id="score-form">
+            {% csrf_token %}
+        <label for= "score"> Your Gold:</label>
+        <input type="text" name= "score" value= {{request.session.gold}}>
+        </form>
+        <h2>Farm</h2>
+        <p>(earns 10-20 gold)</p>
+        <form action="process_money" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="building" value="farm">
+            <input type="submit" value="Find Gold!">
+        </form>    		
+        <h2>Cave</h2>
+        <p>(earns 5-10 gold)</p>
+        <form action="process_money" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="building" value="cave">
+            <input type="submit" value="Find Gold!">
+        </form>
+        <h2>House</h2>
+        <p>(earns 2-5 gold)</p>
+        <form action="process_money" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="building" value="house">
+            <input type="submit" value="Find Gold">    
+        </form>
+        <h2>Casino</h2>
+        <p>(earns/takes 0-50 gold )</p>
+        <form action="process_money" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="building" value="casino">
+            <input type="submit" value="Find Gold">
+        </form>
+        <div id="activities">
+            <p>Activities:</p>
+            <div id="activity-box">
+                {% for update in request.session.updates %}
+                    <p class='{{ update.color }}'> {{ update.text }} {{update.time}}
+                {% endfor %}
+            </div>    
+        </div>
+    </body>        
+             
+</html>
